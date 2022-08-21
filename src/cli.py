@@ -1,6 +1,6 @@
 from .models import GameRules
 from .print import print_game
-from .tic import find_winner, initialize_game, play_move
+from .find_winner import find_winner, initialize_game, play_move
 
 TIC_TAC_TOE_RULES = GameRules(rows=3, columns=3, connected_to_win=3)
 

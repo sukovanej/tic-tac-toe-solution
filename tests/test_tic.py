@@ -2,7 +2,7 @@ import pytest
 
 from src.cli import TIC_TAC_TOE_RULES
 from src.models import Board
-from src.tic import GameResult, Player, Square, find_winner, initialize_game
+from src.find_winner import GameResult, Player, Square, find_winner, initialize_game
 
 BOARD1 = """
 xox
