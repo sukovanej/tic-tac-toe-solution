@@ -7,7 +7,7 @@ run:
 	poetry run cli
 
 test:
-	poetry run pytest tests/test_tic.py::test_get_game_result
+	poetry run pytest tests
 
 format:
 	poetry run black src tests

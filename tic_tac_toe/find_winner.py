@@ -88,18 +88,16 @@ def has_connected_on_position(position: Position, game: Game) -> bool:
         and all(square_on_position(position, game) == square for position in zip(row_range, column_range))
     )
 
-    row_range_opposite = range(current_row, max(current_row - connected_to_win, 0))
+    row_range_opposite = range(current_row, max(current_row - connected_to_win, -1), -1)
     has_enough_in_column_opposite = current_row + 1 >= connected_to_win
 
-    connected_in_diagonal = (
+    connected_in_diagonal_2 = (
         has_enough_in_column_opposite
         and has_enough_in_row
         and all(square_on_position(position, game) == square for position in zip(row_range_opposite, column_range))
     )
 
-    # todo: second diagonal
-
-    return connected_in_row or connected_in_column or connected_in_diagonal
+    return connected_in_row or connected_in_column or connected_in_diagonal or connected_in_diagonal_2
 
 
 def initialize_game(rules: GameRules) -> Game:

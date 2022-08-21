@@ -121,6 +121,12 @@ RESULT_BOARD6 = """
 ox 
 """
 
+RESULT_BOARD7 = """
+  x
+ ox
+ox 
+"""
+
 @pytest.mark.parametrize("board, expected_result", [
     (RESULT_BOARD1, GameResult.CIRCLE_WINS),
     (RESULT_BOARD2, GameResult.CIRCLE_WINS),
@@ -128,6 +134,7 @@ ox
     (RESULT_BOARD4, GameResult.CIRCLE_WINS),
     (RESULT_BOARD5, GameResult.CIRCLE_WINS),
     (RESULT_BOARD6, GameResult.CIRCLE_WINS),
+    (RESULT_BOARD7, GameResult.IN_PROGRESS),
 ])
 def test_get_game_result(board: str, expected_result: GameResult) -> None:
     game = initialize_game(TIC_TAC_TOE_RULES)
