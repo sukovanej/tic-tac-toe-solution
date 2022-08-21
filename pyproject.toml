@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "tic-tac-toe-solution"
+version = "0.1.0"
+description = ""
+authors = ["Milan Suk <Milansuk@email.cz>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.dev-dependencies]
+mypy = "^0.971"
+pytest = "^7.1.2"
+isort = "^5.10.1"
+black = "^22.6.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+profile = "black"
+
+[tool.black]
+line-length = 120
