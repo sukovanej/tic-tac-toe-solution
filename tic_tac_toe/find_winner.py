@@ -70,24 +70,36 @@ def has_connected_on_position(position: Position, game: Game) -> bool:
     current_row, current_column = position
     square = square_on_position(position, game)
 
-    max_column = min(current_column + connected_to_win, rows)
-    column_range = range(current_column, max_column)
+    column_range = range(current_column, min(current_column + connected_to_win, rows))
+    row_range = range(current_row, min(current_row + connected_to_win, columns))
 
-    max_row = min(current_row + connected_to_win, columns)
-    row_range = range(current_row, max_row)
+    has_enough_in_column = rows - current_row >= connected_to_win
+    has_enough_in_row = columns - current_column >= connected_to_win
 
-    in_row = [square_on_position((current_row, column), game) for column in column_range]
-    connected_in_row = len(in_row) >= connected_to_win and all(c == square for c in in_row)
+    connected_in_row = has_enough_in_row and all(
+        square_on_position((current_row, column), game) == square for column in column_range
+    )
+    connected_in_column = has_enough_in_column and all(
+        square_on_position((row, current_column), game) == square for row in row_range
+    )
+    connected_in_diagonal = (
+        has_enough_in_column
+        and has_enough_in_row
+        and all(square_on_position(position, game) == square for position in zip(row_range, column_range))
+    )
 
-    in_column = [square_on_position((row, current_column), game) for row in row_range]
-    connected_in_column = len(in_column) >= connected_to_win and all(c == square for c in in_column)
+    row_range_opposite = range(current_row, max(current_row - connected_to_win, 0))
+    has_enough_in_column_opposite = current_row + 1 >= connected_to_win
 
-    in_diagonal = [square_on_position(position, game) for position in zip(row_range, column_range)]
-    connected_in_diagonal = len(in_diagonal) >= connected_to_win and all(c == square for c in in_diagonal)
+    connected_in_diagonal = (
+        has_enough_in_column_opposite
+        and has_enough_in_row
+        and all(square_on_position(position, game) == square for position in zip(row_range_opposite, column_range))
+    )
 
-    result = connected_in_row or connected_in_column or connected_in_diagonal
+    # todo: second diagonal
 
-    return result
+    return connected_in_row or connected_in_column or connected_in_diagonal
 
 
 def initialize_game(rules: GameRules) -> Game:
@@ -107,16 +119,13 @@ def find_winner(game: Game, depth: int = 0) -> GameResult:
         if player_wins(game.player_to_move, result):
             return result
 
-        if player_wins(get_next_player(game.player_to_move), result):
-            continue
-
         if not is_last_move:
             result = find_winner(new_game, depth + 1)
 
-        results.append(result)
+        if player_wins(game.player_to_move, result):
+            return result
 
-    if all(player_wins(game.player_to_move, r) for r in results if r != GameResult.DRAW):
-        return GameResult.CIRCLE_WINS if game.player_to_move == Square.CIRCLE else GameResult.CROSS_WINS
+        results.append(result)
 
     if any(result == GameResult.DRAW for result in results):
         return GameResult.DRAW

@@ -3,7 +3,9 @@ name = "tic_tac_toe"
 version = "0.1.0"
 description = ""
 authors = ["Milan Suk <Milansuk@email.cz>"]
-packages = [{ include = "src" }]
+
+[tool.poetry.scripts]
+cli = 'tic_tac_toe.cli:run'
 
 [tool.poetry.dependencies]
 python = "^3.10"

@@ -5,11 +5,12 @@ from .find_winner import find_winner, initialize_game, play_move
 TIC_TAC_TOE_RULES = GameRules(rows=3, columns=3, connected_to_win=3)
 
 
-if __name__ == "__main__":
+def run():
     game = initialize_game(TIC_TAC_TOE_RULES)
 
     game = play_move((0, 1), game)
-    game = play_move((2, 2), game)
+    game = play_move((0, 2), game)
+    game = play_move((1, 1), game)
     print_game(game)
 
     result = find_winner(game)
